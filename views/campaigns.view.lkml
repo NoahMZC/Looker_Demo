@@ -8,10 +8,7 @@ view: campaigns {
     type: number
     sql: ${TABLE}.id ;;
   }
-  
-  
-  
-  
+
   dimension: advertising_channel {
     type: string
     sql: ${TABLE}.advertising_channel ;;
