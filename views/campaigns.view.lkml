@@ -48,8 +48,29 @@ view: campaigns {
   measure: amount {
     label: "계"
     type: sum
-    sql: ${TABLE}.amount ;;
+    sql: ifnull(${TABLE}.amount,0) ;;
+    filters:{
+      field:created_month
+      value: "last 5 month"
+      }
     drill_fields: [user_details*]
+  }
+
+  measure: amount2 {
+    label: "계2"
+    type: sum
+    sql: ifnull(${TABLE}.amount,0) ;;
+    filters:{
+      field:created_month
+      value: "last 6 month"
+    }
+    drill_fields: [user_details*]
+  }
+
+  measure: amount3 {
+    label: "저번달"
+    type: number
+    sql: abs(${amount2} - ${amount}) ;;
   }
 
   set: user_details {
