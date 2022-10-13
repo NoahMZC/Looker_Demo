@@ -12,6 +12,11 @@ persist_with: looker_demo_noah_default_datagroup
 
 explore: distribution_centers {}
 
+
+
+
+
+
 explore: events {
   join: ad_events {
     type: left_outer
@@ -76,9 +81,15 @@ explore: ad_groups {
   }
 }
 
-explore: connection_reg_r3 {}
+explore: connection_reg_r3 {
+  group_label: "이벤"
+}
 
-explore: campaigns {}
+explore: campaigns {
+  label: "캠페인"
+  group_label: "이벤트"
+}
+
 
 explore: inventory_items {
   join: products {

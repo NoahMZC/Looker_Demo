@@ -89,12 +89,12 @@ view: campaigns {
 
   dimension: created_weekend {
     type: string
-    sql: DATE_TRUNC(${TABLE}.created_at , WEEK(SUNDAY))
+    sql: DATE_TRUNC(campaigns.created_at, WEEK(SUNDAY))
        ||"~"||
-        DATE_ADD((DATE_TRUNC(${TABLE}.created_at , WEEK(SUNDAY))),interval 6 day)
-         || " (" || EXTRACT(WEEK FROM created_at)||"주)";;
+        DATE_ADD((DATE_TRUNC(campaigns.created_at, WEEK(SUNDAY))),interval 6 day)
+         || " (" || EXTRACT(WEEK FROM campaigns.created_at)||"주)";;
   }
-
+##ㅈㄷ
   dimension_group: last_date {
     type: time
     timeframes: [
