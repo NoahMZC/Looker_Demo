@@ -1,12 +1,5 @@
-view: demo_transaction {
-  derived_table: {
-    sql:
-      select
-        *
-      from
-        `mzcdsc-team-200716.Looker_Demo_retail.transaction_detail`
-        ,UNNEST(line_items);;
-  }
+view: demo_transaction2 {
+  sql_table_name: `Looker_Demo_retail.transaction_detail` ;;
   dimension_group: transaction_timestamp {
     type: time
     timeframes: [
@@ -34,24 +27,19 @@ view: demo_transaction {
     primary_key: yes
     type: string
     sql: ${TABLE}.transaction_id ;;
+    drill_fields: [sales_detail*]
   }
-
-  dimension: product_id {
+  dimension: channel_id {
     type: string
-    sql: ${TABLE}.product_id ;;
-  }
-  measure: sale_price {
-    type: sum
-    sql: ${TABLE}.sale_price ;;
-  }
-  measure: gross_margin {
-    type: sum
-    sql: ${TABLE}.gross_margin ;;
+    sql: ${TABLE}.channel_id ;;
+    drill_fields: [sales_detail*]
   }
   measure: count {
     type: count
   }
-
+  set: sales_detail {
+    fields: [transaction_id, demo_channel.name, demo_production.name,demo_transaction.sale_price]
+  }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
   #
