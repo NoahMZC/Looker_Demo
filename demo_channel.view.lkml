@@ -1,46 +1,15 @@
-view: demo_transaction {
-  derived_table: {
-    sql:
-      select
-        *
-      from
-        `mzcdsc-team-200716.Looker_Demo_retail.transaction_detail`
-        ,UNNEST(line_items);;
-  }
-  dimension_group: transaction_timestamp {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.transaction_timestamp  ;;
-  }
-  dimension: transaction_id {
+view: demo_channel {
+  sql_table_name: `Looker_Demo_retail.channels` ;;
+
+  dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.transaction_id ;;
+    sql: ${TABLE}.ID ;;
   }
-  dimension: channel_id {
+
+  dimension: name {
     type: string
-    sql: ${TABLE}.channel_id ;;
-  }
-  dimension: product_id {
-    type: string
-    sql: ${TABLE}.product_id ;;
-  }
-  measure: sale_price {
-    type: sum
-    sql: ${TABLE}.sale_price ;;
-  }
-  measure: gross_margin {
-    type: sum
-    sql: ${TABLE}.gross_margin ;;
+    sql: ${TABLE}.NAME ;;
   }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
@@ -72,7 +41,7 @@ view: demo_transaction {
   # }
 }
 
-# view: demo_transaction {
+# view: demo_channel {
 #   # Or, you could make this view a derived table, like this:
 #   derived_table: {
 #     sql: SELECT
