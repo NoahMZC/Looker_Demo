@@ -11,7 +11,7 @@ explore: demo_transaction {
   }
   join: demo_channel {
     type: left_outer
-    sql_on: ${demo_transaction.product_id} = ${demo_channel.id} ;;
+    sql_on: ${demo_transaction.product_id} = ${demo_channel.id};;
     relationship: many_to_one
   }
 }
