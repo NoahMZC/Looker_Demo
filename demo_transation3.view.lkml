@@ -9,7 +9,7 @@ view: demo_transaction {
        ,sale_price
        ,gross_margin
       FROM
-        `mzcdsc-team-200716.Looker_Demo_retail.transaction_detail`
+        `looker-private-demo.retail.transaction_detail`
        ,UNNEST(line_items);;
   }
   dimension_group: transaction_timestamp {
