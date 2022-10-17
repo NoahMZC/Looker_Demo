@@ -1,19 +1,21 @@
 view: demo_channel {
   sql_table_name: `Looker_Demo_retail.channels` ;;
-
   dimension: id {
     primary_key: yes
     type: string
     sql: ${TABLE}.ID ;;
   }
-
   dimension: name {
+    label: "채널 명"
     type: string
     sql: ${TABLE}.NAME ;;
   }
   measure: count {
     type: count
   }
+
+
+
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
   #
