@@ -21,6 +21,23 @@ explore: demo_transaction2 {
   }
 }
 explore: demo_channel {}
+
+
+explore: demo_transaction3 {
+  join: demo_production {
+    type: full_outer
+    sql_on: ${demo_transaction3.product_id} = ${demo_production.id} ;;
+    relationship: many_to_one
+  }
+  join: demo_channel {
+    type: full_outer
+    sql_on: ${demo_transaction3.channel_id} = ${demo_channel.id};;
+    relationship: many_to_one
+  }
+}
+
+
+
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
 #

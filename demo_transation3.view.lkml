@@ -1,5 +1,17 @@
-view: demo_transaction2 {
-  sql_table_name: `Looker_Demo_retail.transaction_detail` ;;
+view: demo_transaction3 {
+  derived_table: {
+    sql:
+      SELECT
+        transaction_timestamp
+       ,transaction_id
+       ,channel_id
+       ,product_id
+       ,sale_price
+       ,gross_margin
+      FROM
+        `mzcdsc-team-200716.Looker_Demo_retail.transaction_detail`
+       ,UNNEST(line_items);;
+  }
   dimension_group: transaction_timestamp {
     type: time
     timeframes: [
@@ -17,16 +29,21 @@ view: demo_transaction2 {
   }
   dimension: created_weekend {
     type: string
-    sql: DATE_TRUNC(extract(DATE from demo_transaction2.transaction_timestamp), WEEK(SUNDAY))
+    sql: DATE_TRUNC(extract(DATE from transaction_timestamp), WEEK(SUNDAY))
        ||"~"||
-        DATE_ADD((DATE_TRUNC(extract(DATE from demo_transaction2.transaction_timestamp), WEEK(SUNDAY))),interval 6 day)
-         || " (" || EXTRACT(WEEK FROM demo_transaction2.transaction_timestamp)||"주)";;
+        DATE_ADD((DATE_TRUNC(extract(DATE from transaction_timestamp), WEEK(SUNDAY))),interval 6 day)
+         || " (" || EXTRACT(WEEK FROM transaction_timestamp)||"주)";;
   }
 
   dimension: transaction_id {
     primary_key: yes
     type: string
     sql: ${TABLE}.transaction_id ;;
+  }
+
+  dimension: product_id {
+    type: string
+    sql: ${TABLE}.product_id ;;
     drill_fields: [sales_detail*]
   }
   dimension: channel_id {
@@ -34,11 +51,24 @@ view: demo_transaction2 {
     sql: ${TABLE}.channel_id ;;
     drill_fields: [sales_detail*]
   }
+  measure: sale_price {
+    type: sum
+    sql: ${TABLE}.sale_price ;;
+    value_format: "$0.00"
+    drill_fields: [sales_detail*]
+  }
+  measure: gross_margin {
+    type: sum
+    sql: ${TABLE}.gross_margin ;;
+    value_format: "$0.00"
+    drill_fields: [sales_detail*]
+  }
   measure: count {
     type: count
+    drill_fields: [sales_detail*]
   }
   set: sales_detail {
-    fields: [transaction_id, demo_channel.name, demo_production.name,demo_transaction.sale_price]
+    fields: [demo_production.name, count]
   }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
