@@ -1,4 +1,4 @@
-view: demo_transaction3 {
+view: demo_transaction {
   derived_table: {
     sql:
       SELECT
@@ -13,6 +13,8 @@ view: demo_transaction3 {
        ,UNNEST(line_items);;
   }
   dimension_group: transaction_timestamp {
+    group_label: "시점"
+    label: "거래 일시"
     type: time
     timeframes: [
       time,
@@ -27,7 +29,9 @@ view: demo_transaction3 {
     datatype: timestamp
     sql: ${TABLE}.transaction_timestamp  ;;
   }
-  dimension: created_weekend {
+  dimension: transaction_weekend{
+    group_label: "시점"
+    label: "거래 주차"
     type: string
     sql: DATE_TRUNC(extract(DATE from transaction_timestamp), WEEK(SUNDAY))
        ||"~"||
@@ -42,22 +46,26 @@ view: demo_transaction3 {
   }
 
   dimension: product_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.product_id ;;
     drill_fields: [sales_detail*]
   }
   dimension: channel_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.channel_id ;;
     drill_fields: [sales_detail*]
   }
   measure: sale_price {
+    label: "판매액"
     type: sum
     sql: ${TABLE}.sale_price ;;
     value_format: "$0.00"
     drill_fields: [sales_detail*]
   }
   measure: gross_margin {
+    label: "매출 총 이익"
     type: sum
     sql: ${TABLE}.gross_margin ;;
     value_format: "$0.00"

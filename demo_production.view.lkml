@@ -8,15 +8,21 @@ view: demo_production {
   }
 
   dimension: category {
+    group_label: "제품 정보"
+    label: "카테고리"
     type: string
     sql: ${TABLE}.CATEGORY ;;
   }
 
   dimension: name {
+    group_label: "제품 정보"
+    label: "제품명"
     type: string
     sql: ${TABLE}.NAME ;;
   }
   dimension: brand {
+    group_label: "제품 정보"
+    label: "브랜드"
     type: string
     sql: ${TABLE}.BRAND ;;
   }

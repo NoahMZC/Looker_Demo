@@ -1,4 +1,4 @@
-view: demo_transaction {
+view: demo_transaction3 {
   derived_table: {
     sql:
       select
